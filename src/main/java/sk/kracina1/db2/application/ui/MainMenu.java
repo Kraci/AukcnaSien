@@ -15,13 +15,11 @@ public class MainMenu extends Menu {
     @Override
     public void print() {
         System.out.println("***********************************");
-        System.out.println("* 1. list all the airports        *");
-        System.out.println("* 2. show an airport              *");
-        System.out.println("* 3. add an airport               *");
-        System.out.println("* 4. edit an airport              *");
-        System.out.println("* 5. delete an airport            *");
+        System.out.println("* 1. list all the users           *");
+        System.out.println("* 2. show an user                 *");
+        System.out.println("* 3. delete an user               *");
         System.out.println();
-        System.out.println("* 6. exit                         *");
+        System.out.println("* 4. exit                         *");
         System.out.println("***********************************");
     }
 
@@ -29,13 +27,11 @@ public class MainMenu extends Menu {
     public void handle(String option) {
         try {
             switch (option) {
-                case "1":   listAllAirports(); break;
-                case "2":   showAnAirport(); break;
-                case "3":   addAnAirport(); break;
-                case "4":   editAnAirport(); break;
-                case "5":   deleteAnAirport(); break;
+                case "1":   listAllUsers(); break;
+                case "2":   showAnUser(); break;
+                case "3":   deleteAnUser(); break;
 
-                case "6":   exit(); break;
+                case "4":   exit(); break;
 
                 default:    System.out.println("Unknown option"); break;
             }
@@ -44,24 +40,24 @@ public class MainMenu extends Menu {
         }
     }
 
-    private void listAllAirports() throws SQLException {
-        for (Airport airport: AirportFinder.getInstance().findAll()) {
-            AirportPrinter.getInstance().print(airport);
+    private void listAllUsers() throws SQLException {
+        for (User user: UserFinder.getInstance().findAll()) {
+            UserPrinter.getInstance().print(user);
         }
     }
 
-    private void showAnAirport() throws IOException, SQLException {
+    private void showAnUser() throws IOException, SQLException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Enter an airport's id: ");
-        int airportId = Integer.parseInt(br.readLine());
+        System.out.print("Enter an user's id: ");
+        int userId = Integer.parseInt(br.readLine());
 
-        Airport airport = AirportFinder.getInstance().findById(airportId);
+        User user = UserFinder.getInstance().findById(userId);
 
-        if (airport == null) {
-            System.out.println("No such airport exists");
+        if (user == null) {
+            System.out.println("No such user exists");
         } else {
-            AirportPrinter.getInstance().print(airport);
+            UserPrinter.getInstance().print(user);
         }
     }
 
@@ -115,19 +111,19 @@ public class MainMenu extends Menu {
 //        }
     }
 
-    private void deleteAnAirport() throws SQLException, IOException {
+    private void deleteAnUser() throws SQLException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Enter an airport's id: ");
-        int airportId = Integer.parseInt(br.readLine());
+        System.out.print("Enter an user's id: ");
+        int userId = Integer.parseInt(br.readLine());
 
-        Airport airport = AirportFinder.getInstance().findById(airportId);
+        User user = UserFinder.getInstance().findById(userId);
 
-        if (airport == null) {
-            System.out.println("No such airport exists");
+        if (user == null) {
+            System.out.println("No such user exists");
         } else {
-            airport.delete();
-            System.out.println("The airport has been successfully deleted");
+            user.delete();
+            System.out.println("The user has been successfully deleted");
         }
     }
 

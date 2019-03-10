@@ -1,10 +1,14 @@
-DROP TABLE if EXISTS airports CASCADE;
-CREATE TABLE airports
+DROP TABLE if EXISTS users CASCADE;
+CREATE TABLE users
 (
     id serial PRIMARY KEY,
-    name VARCHAR
+    username VARCHAR,
+    mail VARCHAR,
+    password VARCHAR,
+    first_name VARCHAR,
+    surname VARCHAR,
+    age INTEGER
 );
-
 
 -- DROP TABLE if EXISTS cities CASCADE;
 -- CREATE TABLE cities
