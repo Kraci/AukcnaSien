@@ -16,6 +16,11 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.0.0</version>
-		</dependency>		
-	</dependencies>
+		</dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+    </dependencies>
 </project>

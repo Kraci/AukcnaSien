@@ -6,8 +6,6 @@ import java.sql.SQLException;
 
 public class User extends BaseGateway {
 
-//    private List<Item> items;
-
     private Integer id;
     private String username;
     private String mail;
