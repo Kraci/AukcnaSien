@@ -18,8 +18,8 @@ public class MainMenu extends Menu {
         System.out.println("* 1. list all the users           *");
         System.out.println("* 2. show an user                 *");
         System.out.println("* 3. delete an user               *");
-        System.out.println();
-        System.out.println("* 4. exit                         *");
+        System.out.println("* 4. add  item                    *");
+        System.out.println("* 5. exit                         *");
         System.out.println("***********************************");
     }
 
@@ -30,8 +30,8 @@ public class MainMenu extends Menu {
                 case "1":   listAllUsers(); break;
                 case "2":   showAnUser(); break;
                 case "3":   deleteAnUser(); break;
-
-                case "4":   exit(); break;
+                case "4":   addItem();break;
+                case "5":   exit(); break;
 
                 default:    System.out.println("Unknown option"); break;
             }
@@ -125,6 +125,44 @@ public class MainMenu extends Menu {
             user.delete();
             System.out.println("The user has been successfully deleted");
         }
+    }
+
+    private void addItem() throws IOException, SQLException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        Item item = new Item();
+
+        // TODO auth user
+        item.setUser_id(1);
+
+        System.out.println("Add new Item.");
+        System.out.print("Name: ");
+        String name = br.readLine();
+        item.setName(name);
+
+        System.out.print("Count: ");
+        Integer count = Integer.parseInt(br.readLine());
+        item.setCount(count);
+
+        System.out.print("Description: ");
+        String description = br.readLine();
+        System.out.println();
+        item.setDescription(description);
+
+        for (Category category : CategoryFinder.getInstance().findAll()) {
+            CategoryPrinter.getInstance().print(category);
+        }
+        Category category = null;
+        while (category == null) {
+            System.out.print("Category id: ");
+            category = CategoryFinder.getInstance().findById(Integer.parseInt(br.readLine()));
+        }
+        item.setCategory_id(category.getId());
+
+        item.insert();
+        System.out.println();
+        ItemPrinter.getInstance().print(item);
+
     }
 
 }

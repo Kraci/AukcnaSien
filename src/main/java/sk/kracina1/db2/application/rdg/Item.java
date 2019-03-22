@@ -61,8 +61,8 @@ public class Item extends BaseGateway {
         this.description = description;
     }
 
-    protected void insert() throws SQLException {
-        super.insert("INSERT INTO items (categorry_id, user_id, count, name, description) VALUES (?,?,?,?,?)");
+    public void insert() throws SQLException {
+        super.insert("INSERT INTO items (category_id, user_id, count, name, description) VALUES (?,?,?,?,?)");
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Item extends BaseGateway {
         id = r.getInt(1);
     }
 
-    protected void update() throws SQLException {
+    public void update() throws SQLException {
         super.update("UPDATE items SET category_id = ?, user_id = ?, count = ?, name = ?, description = ? WHERE id = ?");
     }
 
