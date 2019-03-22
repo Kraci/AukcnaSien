@@ -4,11 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import sk.kracina1.db2.application.rdg.*;
+import sk.kracina1.db2.application.validation.*;
 
 public class MainMenu extends Menu {
 
@@ -128,41 +129,41 @@ public class MainMenu extends Menu {
     }
 
     private void addItem() throws IOException, SQLException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         Item item = new Item();
 
         // TODO auth user
         item.setUser_id(1);
 
         System.out.println("Add new Item.");
-        System.out.print("Name: ");
-        String name = br.readLine();
+        String name = Validation.getInstance().validate("Name: ", Arrays.asList(
+                new Required()
+        ));
         item.setName(name);
+        String count = Validation.getInstance().validate("Count: ", Arrays.asList(
+                new Required(),
+                new IsInteger()
+        ));
+        item.setCount(Integer.parseInt(count));
 
-        System.out.print("Count: ");
-        Integer count = Integer.parseInt(br.readLine());
-        item.setCount(count);
-
-        System.out.print("Description: ");
-        String description = br.readLine();
+        String description = Validation.getInstance().validate("Description: ", Arrays.asList(
+                new Required()
+        ));
         System.out.println();
         item.setDescription(description);
 
         for (Category category : CategoryFinder.getInstance().findAll()) {
             CategoryPrinter.getInstance().print(category);
         }
-        Category category = null;
-        while (category == null) {
-            System.out.print("Category id: ");
-            category = CategoryFinder.getInstance().findById(Integer.parseInt(br.readLine()));
-        }
-        item.setCategory_id(category.getId());
+        String category = Validation.getInstance().validate("Category id: ", Arrays.asList(
+                new Required(),
+                new IsInteger(),
+                new IsInCategories()
+        ));
+        item.setCategory_id(CategoryFinder.getInstance().findById(Integer.parseInt(category)).getId());
 
         item.insert();
         System.out.println();
         ItemPrinter.getInstance().print(item);
-
     }
 
 }
