@@ -20,6 +20,14 @@ public class UserFinder extends BaseFinder<User> {
         return findAll("SELECT * FROM users");
     }
 
+    public User findByUsernameAndPassword(String name, String password) throws SQLException {
+        return findByString("SELECT * FROM users WHERE username = ? AND password = ?", name, password);
+    }
+
+    public User findByMailAndPassword(String mail, String password) throws SQLException {
+        return findByString("SELECT * FROM users WHERE mail = ? AND password = ?", mail, password);
+    }
+
     @Override
     protected User load(ResultSet r) throws SQLException {
         User user = new User();
