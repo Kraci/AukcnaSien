@@ -26,17 +26,17 @@ public class Category extends BaseGateway {
     }
 
     public void insert() throws SQLException {
-        super.insert("");
+        super.insert("INSERT INTO categories (name) VALUES (?)");
     }
 
     @Override
     protected void insertFill(PreparedStatement s) throws SQLException {
-
+        s.setString(1, name);
     }
 
     @Override
     protected void insertUpdateKeys(ResultSet r) throws SQLException {
-
+        id = r.getInt(1);
     }
 
     @Override

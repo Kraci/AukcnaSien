@@ -27,7 +27,7 @@ public class AuctionRoom extends BaseGateway {
     }
 
     public void insert() throws SQLException {
-        super.insert("INSERT INTO auction_rooms (category_id,start_date, end_date) VALUES (?,?,?)");
+        super.insert("INSERT INTO auction_rooms (category_id) VALUES (?)");
     }
 
     @Override
@@ -45,8 +45,12 @@ public class AuctionRoom extends BaseGateway {
 
     }
 
+    public void delete() throws SQLException {
+        super.delete("DELETE FROM auction_rooms WHERE id = ?");
+    }
+
     @Override
     protected void deleteFill(PreparedStatement s) throws SQLException {
-
+        s.setInt(1, id);
     }
 }
