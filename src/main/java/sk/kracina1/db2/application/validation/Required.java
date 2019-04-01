@@ -1,8 +1,8 @@
 package sk.kracina1.db2.application.validation;
 
 public class Required implements Rule {
-    public Required() {
-    }
+
+    private static final String errorMessage = "Value is required.";
 
     @Override
     public boolean passes(String value) {
@@ -11,6 +11,7 @@ public class Required implements Rule {
 
     @Override
     public String message() {
-        return "Value is required.";
+        return errorMessage;
     }
+
 }

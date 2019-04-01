@@ -26,9 +26,4 @@ class IsDoubleTest {
         assertEquals(isDouble.passes("3.02a"), false);
     }
 
-    @org.junit.jupiter.api.Test
-    void message() {
-        assertEquals(isDouble.message(), "Value must be double.");
-    }
-
 }

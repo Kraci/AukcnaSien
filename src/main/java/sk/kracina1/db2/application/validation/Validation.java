@@ -17,31 +17,36 @@ public class Validation {
 
     public static Validation getInstance() { return INSTANCE; }
 
-    public String check(String value, List<Rule> rules) throws SQLException {
+    private String check(String value, List<Rule> rules) {
         for (Rule rule: rules) {
-            if (!rule.passes(value)){
+            if (!rule.passes(value)) {
                 return rule.message();
             }
         }
         return "";
     }
 
-    public String validate(String messageText, List<Rule>  rules) throws IOException, SQLException {
+    public String validate(String messageText, List<Rule>  rules) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String value = "";
         boolean validated = false;
         while (!validated){
             System.out.print(messageText);
-            value = br.readLine();
-            String error = check(value,rules);
-            if (error.equals("")){
-                validated = true;
-            } else {
-                System.out.println();
-                System.out.println(error);
-                System.out.println();
+            try {
+                value = br.readLine();
+                String error = check(value,rules);
+                if ("".equals(error)){
+                    validated = true;
+                } else {
+                    System.out.println();
+                    System.out.println(error);
+                    System.out.println();
+                }
+            } catch (IOException e) {
+                System.out.println("IO Exception: " + e);
             }
         }
         return value;
     }
+
 }

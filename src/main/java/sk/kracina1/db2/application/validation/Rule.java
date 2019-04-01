@@ -1,7 +1,5 @@
 package sk.kracina1.db2.application.validation;
 
-import java.sql.SQLException;
-
 public interface Rule {
 
     /**
@@ -9,11 +7,12 @@ public interface Rule {
      * @param value
      * @return
      */
-    public boolean passes(String value) throws SQLException;
+    public boolean passes(String value);
 
     /**
      * Get the validation error message.
      * @return
      */
     public String message();
+
 }

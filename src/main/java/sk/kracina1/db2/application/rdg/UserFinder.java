@@ -20,6 +20,14 @@ public class UserFinder extends BaseFinder<User> {
         return findAll("SELECT * FROM users");
     }
 
+    public User findUserByName(String username) throws SQLException {
+        return findByString("SELECT * FROM users WHERE username = ?", username);
+    }
+
+    public User findUserByMail(String mail) throws SQLException {
+        return findByString("SELECT * FROM users WHERE mail = ?", mail);
+    }
+
     public User findByUsernameAndPassword(String name, String password) throws SQLException {
         return findByString("SELECT * FROM users WHERE username = ? AND password = ?", name, password);
     }
@@ -37,7 +45,7 @@ public class UserFinder extends BaseFinder<User> {
         user.setMail(r.getString("mail"));
         user.setPassword(r.getString("password"));
         user.setFirstName(r.getString("first_name"));
-        user.setSurName(r.getString("surname"));
+        user.setSurname(r.getString("surname"));
         user.setAge(r.getInt("age"));
 
         return user;
