@@ -18,6 +18,8 @@ public class ItemPrinter {
             throw new NullPointerException("Item cannot be null");
         }
 
+
+
         System.out.print("id:         ");
         System.out.println(item.getId());
         System.out.print("name:   ");

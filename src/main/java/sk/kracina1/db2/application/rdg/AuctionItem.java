@@ -11,7 +11,7 @@ public class AuctionItem extends BaseGateway{
     private Integer room_id;
     private Integer item_id;
     private Double starting_price;
-    private Double bid_price;
+    private Double min_bid_price;
     private Date end_date;
 
     public Integer getId() {
@@ -46,12 +46,12 @@ public class AuctionItem extends BaseGateway{
         this.starting_price = starting_price;
     }
 
-    public Double getBid_price() {
-        return bid_price;
+    public Double getMin_bid_price() {
+        return min_bid_price;
     }
 
-    public void setBid_price(Double bid_price) {
-        this.bid_price = bid_price;
+    public void setMin_bid_price(Double bid_price) {
+        this.min_bid_price = bid_price;
     }
 
     public Date getEnd_date() {
@@ -63,7 +63,7 @@ public class AuctionItem extends BaseGateway{
     }
 
     public void insert() throws SQLException {
-        super.insert("INSERT INTO auction_item (room_id, item_id, starting_price, bid_price, end_date) VALUES (?,?,?,?,?)");
+        super.insert("INSERT INTO auction_items (room_id, item_id, starting_price, min_bid_price, end_date) VALUES (?,?,?,?,?)");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class AuctionItem extends BaseGateway{
         s.setInt(1, room_id);
         s.setInt(2, item_id);
         s.setDouble(3, starting_price);
-        s.setDouble(4, bid_price);
+        s.setDouble(4, min_bid_price);
         s.setDate(5, end_date);
     }
 
