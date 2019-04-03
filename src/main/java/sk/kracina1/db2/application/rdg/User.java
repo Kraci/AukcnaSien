@@ -11,7 +11,7 @@ public class User extends BaseGateway {
     private String mail;
     private String password;
     private String firstName;
-    private String surName;
+    private String surname;
     private Integer age;
 
     public Integer getId() { return id; }
@@ -29,14 +29,14 @@ public class User extends BaseGateway {
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getSurName() { return surName; }
-    public void setSurName(String surName) { this.surName = surName; }
+    public String getSurname() { return surname; }
+    public void setSurname(String surname) { this.surname = surname; }
 
     public Integer getAge() { return age; }
     public void setAge(Integer age) { this.age = age; }
 
     public void insert() throws SQLException {
-        insert("INSERT INTO users (username, mail, password, firstName, surName, age) VALUES (?,?,?,?,?,?)");
+        insert("INSERT INTO users (username, mail, password, first_name, surname, age) VALUES (?,?,?,?,?,?)");
     }
 
     @Override
@@ -45,7 +45,7 @@ public class User extends BaseGateway {
         s.setString(2, mail);
         s.setString(3, password);
         s.setString(4, firstName);
-        s.setString(5, surName);
+        s.setString(5, surname);
         s.setInt(6, age);
     }
 
@@ -58,7 +58,7 @@ public class User extends BaseGateway {
         if (id == null) {
             throw new IllegalStateException("id is not set");
         }
-        update("UPDATE users SET username = ?, mail = ?, password = ?, firstName = ?, surName = ?, age = ? WHERE id = ?");
+        update("UPDATE users SET username = ?, mail = ?, password = ?, first_name = ?, surname = ?, age = ? WHERE id = ?");
     }
 
     @Override
@@ -67,7 +67,7 @@ public class User extends BaseGateway {
         s.setString(2, mail);
         s.setString(3, password);
         s.setString(4, firstName);
-        s.setString(5, surName);
+        s.setString(5, surname);
         s.setInt(6, age);
         s.setInt(7, id);
     }

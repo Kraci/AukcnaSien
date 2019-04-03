@@ -136,6 +136,31 @@ public abstract class BaseFinder<T> {
         }
     }
 
+    protected T findByString(String query, String value) throws SQLException {
+        if (query == null) {
+            throw new NullPointerException("query cannot be null");
+        }
+
+        try (PreparedStatement s = DbContext.getConnection().prepareStatement(query)) {
+            s.setString(1, value);
+
+            try (ResultSet r = s.executeQuery()) {
+                if (r.next()) {
+                    T c = load(r);
+
+                    if (r.next()) {
+                        throw new RuntimeException("Move than one row was returned");
+                    }
+
+                    return c;
+                } else {
+                    return null;
+                }
+
+            }
+        }
+    }
+
     protected T findByString(String query, String value, String value2) throws SQLException {
         if (query == null) {
             throw new NullPointerException("query cannot be null");

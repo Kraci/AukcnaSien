@@ -1,17 +1,18 @@
-package sk.kracina1.db2.application.validation;
+package sk.kracina1.db2.application.validation.Registration;
 
 import sk.kracina1.db2.application.rdg.UserFinder;
+import sk.kracina1.db2.application.validation.Rule;
 
 import java.sql.SQLException;
 
-public class IsInUsers implements Rule {
+public class MailAvailable implements Rule {
 
-    private static final String errorMessage = "User does not exist.";
+    private static final String errorMessage = "Mail is already taken.";
 
     @Override
     public boolean passes(String value) {
         try {
-            return UserFinder.getInstance().findById(Integer.parseInt(value)) != null;
+            return UserFinder.getInstance().findUserByMail(value) == null;
         } catch (SQLException e) {
             //System.out.println(e.getMessage());
             return false;
@@ -22,4 +23,5 @@ public class IsInUsers implements Rule {
     public String message() {
         return errorMessage;
     }
+
 }
