@@ -22,58 +22,57 @@ public class IsInCategoriesTest {
         isInCategories = new IsInCategories();
     }
 
-    @org.junit.jupiter.api.Test
-    void createCategory() {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String username = "postgres";
-        String password = "";
-
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            DbContext.setConnection(connection);
-
-            Category category = new Category();
-
-            category.setName("Ahoj");
-
-            category.insert();
-
-            assertNotNull(CategoryFinder.getInstance().findById(category.getId()));
-
-        } catch (SQLException e) {
-        } finally {
-            try {
-                DbContext.getConnection().rollback();
-            } catch (SQLException e) {
-            }
-            DbContext.clear();
-        }
-    }
-
-    @org.junit.jupiter.api.Test
-    void isInCategory() {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String username = "postgres";
-        String password = "";
-
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            DbContext.setConnection(connection);
-
-            Category category = new Category();
-
-            category.setName("Ahoj");
-
-            category.insert();
-
-            assertTrue(isInCategories.passes("" + category.getId()));
-
-        } catch (SQLException e) {
-        } finally {
-            try {
-                DbContext.getConnection().rollback();
-            } catch (SQLException e) {
-            }
-            DbContext.clear();
-        }
-    }
-
+//    @org.junit.jupiter.api.Test
+//    void createCategory() {
+//        String url = "jdbc:postgresql://localhost:5432/postgres";
+//        String username = "postgres";
+//        String password = "";
+//
+//        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+//            DbContext.setConnection(connection);
+//
+//            Category category = new Category();
+//
+//            category.setName("Ahoj");
+//
+//            category.insert();
+//
+//            assertNotNull(CategoryFinder.getInstance().findById(category.getId()));
+//
+//        } catch (SQLException e) {
+//        } finally {
+//            try {
+//                DbContext.getConnection().rollback();
+//            } catch (SQLException e) {
+//            }
+//            DbContext.clear();
+//        }
+//    }
+//
+//    @org.junit.jupiter.api.Test
+//    void isInCategory() {
+//        String url = "jdbc:postgresql://localhost:5432/postgres";
+//        String username = "postgres";
+//        String password = "";
+//
+//        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+//            DbContext.setConnection(connection);
+//
+//            Category category = new Category();
+//
+//            category.setName("Ahoj");
+//
+//            category.insert();
+//
+//            assertTrue(isInCategories.passes("" + category.getId()));
+//
+//        } catch (SQLException e) {
+//        } finally {
+//            try {
+//                DbContext.getConnection().rollback();
+//            } catch (SQLException e) {
+//            }
+//            DbContext.clear();
+//        }
+//    }
 }
