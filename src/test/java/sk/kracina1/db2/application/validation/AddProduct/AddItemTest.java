@@ -6,7 +6,9 @@ import sk.kracina1.db2.application.rdg.User;
 import sk.kracina1.db2.application.validation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,32 +74,66 @@ public class AddItemTest {
 //        // TODO rollback
 //    }
 
-    @org.junit.jupiter.api.Test
-    void successInsert() throws SQLException {
-        Item item = new Item();
+//    @org.junit.jupiter.api.Test
+//    void successInsert() throws SQLException {
+//        Item item = new Item();
+//
+//        User user = new User();
+//        user.setAge(20);
+//        user.setFirstName("Matej");
+//        user.setSurname("Rychtarik");
+//        user.setMail("test@test.sk");
+//        user.setUsername("matej123456");
+//        user.setPassword("ahoj1234AHOJ");
+//        user.insert();
+//
+//        item.setUser_id(user.getId());
+//        item.setDescription("This is top item.");
+//        item.setName("The best item");
+//
+//        Category category = new Category();
+//        category.setName("category 1");
+//        category.insert();
+//
+//        item.setCategory_id(category.getId());
+//
+//        item.insert();
+//
+//        assertEquals(validation.check(""+item.getId(), Arrays.asList(isInItems)), "");
+//    }
 
-        User user = new User();
-        user.setAge(20);
-        user.setFirstName("Matej");
-        user.setSurname("Rychtarik");
-        user.setMail("test@test.sk");
-        user.setUsername("matej123456");
-        user.setPassword("ahoj1234AHOJ");
-        user.insert();
+//    @org.junit.jupiter.api.Test
+//    void successManyInsert() throws SQLException {
+//        User user = new User();
+//        user.setAge(20);
+//        user.setFirstName("Matej");
+//        user.setSurname("Rychtarik");
+//        user.setMail("test@test.sk");
+//        user.setUsername("matej123456");
+//        user.setPassword("ahoj1234AHOJ");
+//        user.insert();
+//
+//        Category category = new Category();
+//        category.setName("category 1");
+//        category.insert();
+//
+//        List<Item> items = new ArrayList<Item>() {};
+//
+//        for (int i = 0; i < 15; i++) {
+//            Item item = new Item();
+//            item.setUser_id(user.getId());
+//            item.setDescription("This is top item.");
+//            item.setName("The best item");
+//            item.setCategory_id(category.getId());
+//            item.insert();
+//            items.add(item);
+//        }
+//
+//        for (Item item: items) {
+//            assertEquals(validation.check(""+item.getId(), Arrays.asList(isInItems)), "");
+//        }
+//    }
 
-        item.setUser_id(user.getId());
-        item.setDescription("This is top item.");
-        item.setName("The best item");
 
-        Category category = new Category();
-        category.setName("category 1");
-        category.insert();
-
-        item.setCategory_id(category.getId());
-
-        item.insert();
-
-        assertEquals(validation.check(""+item.getId(), Arrays.asList(isInItems)), "");
-    }
 
 }
