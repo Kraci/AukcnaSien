@@ -17,7 +17,7 @@ public class Validation {
 
     public static Validation getInstance() { return INSTANCE; }
 
-    private String check(String value, List<Rule> rules) {
+    public String check(String value, List<Rule> rules) {
         for (Rule rule: rules) {
             if (!rule.passes(value)) {
                 return rule.message();

@@ -1,4 +1,6 @@
-package sk.kracina1.db2.application.validation;
+package sk.kracina1.db2.application.validation.Rules;
+
+import sk.kracina1.db2.application.validation.IsDouble;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,17 +15,17 @@ class IsDoubleTest {
 
     @org.junit.jupiter.api.Test
     void passesInteger() {
-        assertEquals(isDouble.passes("3"), true);
+        assertTrue(isDouble.passes("3"));
     }
 
     @org.junit.jupiter.api.Test
     void passesDouble() {
-        assertEquals(isDouble.passes("3.02"), true);
+        assertTrue(isDouble.passes("3.02"));
     }
 
     @org.junit.jupiter.api.Test
     void passesString() {
-        assertEquals(isDouble.passes("3.02a"), false);
+        assertFalse(isDouble.passes("3.02a"));
     }
 
 }
