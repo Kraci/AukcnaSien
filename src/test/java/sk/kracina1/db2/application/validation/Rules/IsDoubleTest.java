@@ -14,17 +14,37 @@ class IsDoubleTest {
     }
 
     @org.junit.jupiter.api.Test
-    void passesInteger() {
+    void empty() {
+        assertFalse(isDouble.passes(""));
+    }
+
+    @org.junit.jupiter.api.Test
+    void zero() {
+        assertTrue(isDouble.passes("0"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void doubleZero() {
+        assertTrue(isDouble.passes("0.0"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void integerValue() {
         assertTrue(isDouble.passes("3"));
     }
 
     @org.junit.jupiter.api.Test
-    void passesDouble() {
+    void doubleValue() {
         assertTrue(isDouble.passes("3.02"));
     }
 
     @org.junit.jupiter.api.Test
-    void passesString() {
+    void doubleLongValue() {
+        assertTrue(isDouble.passes("3.00000000000002"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void stringValue() {
         assertFalse(isDouble.passes("3.02a"));
     }
 

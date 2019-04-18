@@ -7,7 +7,8 @@ CREATE TABLE users
     password VARCHAR,
     first_name VARCHAR,
     surname VARCHAR,
-    age INTEGER
+    age INTEGER,
+    money DOUBLE PRECISION
 );
 
 DROP TABLE if EXISTS categories CASCADE;
@@ -45,37 +46,3 @@ CREATE TABLE auction_items
     min_bid_price INTEGER,
     end_date DATE
 );
--- DROP TABLE if EXISTS cities CASCADE;
--- CREATE TABLE cities
--- (
---     id serial PRIMARY KEY,
---     name VARCHAR
--- );
---
--- DROP TABLE if EXISTS airports CASCADE;
--- CREATE TABLE airports
--- (
---     id serial PRIMARY KEY,
---     name VARCHAR,
---     city_id INTEGER REFERENCES cities
--- );
---
--- DROP TABLE if EXISTS flight_tariff CASCADE;
--- CREATE TABLE flight_tariff
--- (
---     id serial PRIMARY KEY,
---     flight_id INTEGER REFERENCES flights ON DELETE CASCADE,
---     tariff_id INTEGER REFERENCES tariffs ON DELETE CASCADE
--- );
---
--- DROP TABLE if EXISTS flight_tickets CASCADE;
--- CREATE TABLE flight_tickets
--- (
---     id serial PRIMARY KEY,
---     cancelled BOOLEAN,
---     flight_id INTEGER REFERENCES flights ON DELETE CASCADE,
---     airplane_seat_id INTEGER REFERENCES airplane_seats,
---     traveller_id INTEGER REFERENCES travellers,
---     UNIQUE (flight_id, traveller_id),
---     UNIQUE (flight_id, airplane_seat_id)
--- );

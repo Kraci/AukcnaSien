@@ -13,6 +13,7 @@ public class User extends BaseGateway {
     private String firstName;
     private String surname;
     private Integer age;
+    private Double money;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -35,8 +36,11 @@ public class User extends BaseGateway {
     public Integer getAge() { return age; }
     public void setAge(Integer age) { this.age = age; }
 
+    public Double getMoney() { return money; }
+    public void setMoney(Double money) { this.money = money; }
+
     public void insert() throws SQLException {
-        insert("INSERT INTO users (username, mail, password, first_name, surname, age) VALUES (?,?,?,?,?,?)");
+        insert("INSERT INTO users (username, mail, password, first_name, surname, age, money) VALUES (?,?,?,?,?,?,?)");
     }
 
     @Override
@@ -47,6 +51,7 @@ public class User extends BaseGateway {
         s.setString(4, firstName);
         s.setString(5, surname);
         s.setInt(6, age);
+        s.setDouble(7, money);
     }
 
     @Override
@@ -58,7 +63,7 @@ public class User extends BaseGateway {
         if (id == null) {
             throw new IllegalStateException("id is not set");
         }
-        update("UPDATE users SET username = ?, mail = ?, password = ?, first_name = ?, surname = ?, age = ? WHERE id = ?");
+        update("UPDATE users SET username = ?, mail = ?, password = ?, first_name = ?, surname = ?, age = ?, money = ? WHERE id = ?");
     }
 
     @Override
@@ -69,7 +74,8 @@ public class User extends BaseGateway {
         s.setString(4, firstName);
         s.setString(5, surname);
         s.setInt(6, age);
-        s.setInt(7, id);
+        s.setDouble(7, money);
+        s.setInt(8, id);
     }
 
     public void delete() throws SQLException {

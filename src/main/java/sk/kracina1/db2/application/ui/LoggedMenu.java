@@ -3,6 +3,7 @@ package sk.kracina1.db2.application.ui;
 import sk.kracina1.db2.application.rdg.*;
 import sk.kracina1.db2.application.validation.*;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -15,7 +16,9 @@ public class LoggedMenu extends Menu {
         System.out.println("***********************************");
         System.out.println("* 1. Add Item                     *");
         System.out.println("* 2. Add Item To Auction          *");
-        System.out.println("* 3. Log out                      *");
+        System.out.println("* 3. Add funds                    *");
+        System.out.println("* 4. Edit profile                 *");
+        System.out.println("* 5. Log out                      *");
         System.out.println("***********************************");
     }
 
@@ -25,11 +28,13 @@ public class LoggedMenu extends Menu {
             switch (option) {
                 case "1":   addItem(); break;
                 case "2":   addItemToAuction(); break;
-                case "3":   logout(); break;
+                case "3":   addFunds(); break;
+                case "4":   editProfile(); break;
+                case "5":   logout(); break;
 
                 default:    System.out.println("Unknown option"); break;
             }
-        } catch(SQLException e) {
+        } catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -37,6 +42,24 @@ public class LoggedMenu extends Menu {
     private void logout() {
         Login.getInstance().logout();
         exit();
+    }
+
+    private void addFunds() throws SQLException {
+        User loggedUser = UserFinder.getInstance().findById(Login.getInstance().getUserID());
+        String money = Validation.getInstance().validate("Add funds: ", Arrays.asList(
+                new IsDouble(),
+                new IsPositiveDouble()
+        ));
+        loggedUser.setMoney( loggedUser.getMoney() + Double.parseDouble(money) );
+        loggedUser.update();
+    }
+
+    private void editProfile() throws IOException, SQLException {
+        User loggedUser = UserFinder.getInstance().findById(Login.getInstance().getUserID());
+        UserPrinter.getInstance().print(loggedUser);
+        EditProfileMenu editMenu = new EditProfileMenu();
+        editMenu.setEditedUser(loggedUser);
+        editMenu.run();
     }
 
     private void addItem() throws SQLException {

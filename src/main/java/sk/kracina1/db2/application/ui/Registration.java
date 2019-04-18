@@ -1,10 +1,8 @@
 package sk.kracina1.db2.application.ui;
 
 import sk.kracina1.db2.application.rdg.User;
-import sk.kracina1.db2.application.validation.IsInteger;
+import sk.kracina1.db2.application.validation.*;
 import sk.kracina1.db2.application.validation.Registration.*;
-import sk.kracina1.db2.application.validation.Required;
-import sk.kracina1.db2.application.validation.Validation;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -78,6 +76,14 @@ public class Registration {
                 new IsAdult()
         ));
         user.setAge(Integer.parseInt(age));
+    }
+
+    public void createMoney() {
+        String money = Validation.getInstance().validate("Money: ", Arrays.asList(
+                new IsDouble(),
+                new IsPositiveDouble()
+        ));
+        user.setMoney(Double.parseDouble(money));
     }
 
 }

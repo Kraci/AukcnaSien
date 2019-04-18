@@ -29,6 +29,8 @@ public class UserPrinter {
         System.out.println(user.getSurname());
         System.out.print("age:        ");
         System.out.println(user.getAge());
+        System.out.print("money:      ");
+        System.out.println(user.getMoney());
         System.out.println();
         System.out.println();
     }

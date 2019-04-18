@@ -62,44 +62,8 @@ public class MainMenu extends Menu {
         registration.createFirstName();
         registration.createSurname();
         registration.createAge();
+        registration.createMoney();
         registration.register();
     }
-
-//    private void listAllUsers() throws SQLException {
-//        for (User user: UserFinder.getInstance().findAll()) {
-//            UserPrinter.getInstance().print(user);
-//        }
-//    }
-//
-//    private void showAnUser() throws IOException, SQLException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//
-//        System.out.print("Enter an user's id: ");
-//        int userId = Integer.parseInt(br.readLine());
-//
-//        User user = UserFinder.getInstance().findById(userId);
-//
-//        if (user == null) {
-//            System.out.println("No such user exists");
-//        } else {
-//            UserPrinter.getInstance().print(user);
-//        }
-//    }
-//
-//    private void deleteAnUser() throws SQLException, IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//
-//        System.out.print("Enter an user's id: ");
-//        int userId = Integer.parseInt(br.readLine());
-//
-//        User user = UserFinder.getInstance().findById(userId);
-//
-//        if (user == null) {
-//            System.out.println("No such user exists");
-//        } else {
-//            user.delete();
-//            System.out.println("The user has been successfully deleted");
-//        }
-//    }
 
 }

@@ -47,6 +47,7 @@ public class UserFinder extends BaseFinder<User> {
         user.setFirstName(r.getString("first_name"));
         user.setSurname(r.getString("surname"));
         user.setAge(r.getInt("age"));
+        user.setMoney(r.getDouble("money"));
 
         return user;
     }
