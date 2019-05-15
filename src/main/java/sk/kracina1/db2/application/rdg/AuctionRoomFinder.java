@@ -7,12 +7,19 @@ public class AuctionRoomFinder extends BaseFinder<AuctionRoom> {
 
     private static final AuctionRoomFinder INSTANCE = new AuctionRoomFinder();
 
-    public static AuctionRoomFinder getInstance() { return INSTANCE; }
+    public static AuctionRoomFinder getInstance() {
+        return INSTANCE;
+    }
 
-    private AuctionRoomFinder() { }
+    private AuctionRoomFinder() {
+    }
 
     public AuctionRoom findByCategory(int categoryId) throws SQLException {
         return findByInt("SELECT * FROM auction_rooms WHERE category_id = ?", categoryId);
+    }
+
+    public AuctionRoom findById(int id) throws SQLException {
+        return findByInt("SELECT * FROM auction_rooms WHERE id = ?", id);
     }
 
     @Override

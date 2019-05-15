@@ -8,16 +8,20 @@ public class ItemFinder extends BaseFinder<Item> {
 
     private static final ItemFinder INSTANCE = new ItemFinder();
 
-    public static ItemFinder getInstance() { return INSTANCE; }
+    public static ItemFinder getInstance() {
+        return INSTANCE;
+    }
 
-    private ItemFinder() { }
+    private ItemFinder() {
+    }
 
     public Item findById(int id) throws SQLException {
         return findByInt("SELECT * FROM items WHERE id = ?", id);
     }
 
     public List<Item> findFreeByUserId(int userId) throws SQLException {
-        return findAll("SELECT * FROM items WHERE user_id = ? and id not in (SELECT item_id FROM auction_items)", userId);
+        return findAll("SELECT * FROM items WHERE user_id = ? and id not in (SELECT item_id FROM auction_items)",
+                userId);
     }
 
     @Override

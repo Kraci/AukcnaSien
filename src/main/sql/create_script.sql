@@ -43,6 +43,8 @@ CREATE TABLE auction_items
     room_id INTEGER REFERENCES auction_rooms,
     item_id INTEGER REFERENCES items,
     starting_price INTEGER,
+    price INTEGER,
     min_bid_price INTEGER,
-    end_date DATE
+    end_date DATE,
+    bidder_id INTEGER
 );
