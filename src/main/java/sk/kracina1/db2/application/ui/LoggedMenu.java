@@ -23,7 +23,8 @@ public class LoggedMenu extends Menu {
         System.out.println("* 4. Edit profile                 *");
         System.out.println("* 5. Show items                   *");
         System.out.println("* 6. Bid on item                  *");
-        System.out.println("* 7. Log out                      *");
+        System.out.println("* 7. Finish auction               *");
+        System.out.println("* 8. Log out                      *");
         System.out.println("***********************************");
     }
 
@@ -50,6 +51,9 @@ public class LoggedMenu extends Menu {
                 bidOnItem();
                 break;
             case "7":
+                finishAuctions();
+                break;
+            case "8":
                 logout();
                 break;
 
@@ -208,5 +212,40 @@ public class LoggedMenu extends Menu {
         userPrev.update();
 
         System.out.println("OK!");
+    }
+
+    private void finishAuctions() throws SQLException {
+        AuctionItemFinder aif = AuctionItemFinder.getInstance();
+        List<AuctionItem> lai = aif.findFinished();
+        if (lai.size() == 0) {
+            System.out.println("No finished autction items found.");
+            return;
+        }
+        for (AuctionItem auctionItem : lai) {
+            System.out.println("Nasiel sa AuctionItem.");
+            ItemFinder itemFinder = ItemFinder.getInstance();
+            Item item = itemFinder.findById(auctionItem.getItem_id());
+            UserFinder uf = UserFinder.getInstance();
+            User owner = uf.findById(item.getUser_id());
+            User bidder = uf.findById(auctionItem.getHighest_bidder());
+            if (bidder != null) {
+                // dat penaze povodnemu majitelovi
+                owner.setMoney(owner.getMoney() + auctionItem.getPrice());
+
+                // item.user_id prehodit na vyhercu
+                item.setUser_id(bidder.getId());
+            }
+
+            // dat prec auctionItem
+            auctionItem.delete();
+
+            // vymazat prazdne aukcne siene? naaah. Toto zmaz potom rasto xd
+
+            // update vsetkoho v databaze
+            item.update();
+            owner.update();
+            if (bidder != null)
+                bidder.update();
+        }
     }
 }

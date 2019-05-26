@@ -111,8 +111,15 @@ public class AuctionItem extends BaseGateway {
         s.setInt(2, id);
     }
 
+    public void delete() throws SQLException {
+        if (id == null) {
+            throw new IllegalStateException("id is not set");
+        }
+        super.delete("DELETE FROM auction_items WHERE id = ?");
+    }
+
     @Override
     protected void deleteFill(PreparedStatement s) throws SQLException {
-
+        s.setInt(1, id);
     }
 }

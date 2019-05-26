@@ -1,5 +1,6 @@
 package sk.kracina1.db2.application.rdg;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,6 +22,10 @@ public class AuctionItemFinder extends BaseFinder<AuctionItem> {
 
     public List<AuctionItem> findByAuctionId(int auctionId) throws SQLException {
         return findAll("SELECT * FROM auction_items WHERE room_id = ?", auctionId);
+    }
+
+    public List<AuctionItem> findFinished() throws SQLException {
+        return findAll("SELECT * FROM auction_items WHERE end_date < now()");
     }
 
     @Override
