@@ -12,11 +12,13 @@ public class LoggedMenu extends Menu {
 
     @Override
     public void print() {
-        System.out.println("***********************************");
-        System.out.println("* 1. Add Item                     *");
-        System.out.println("* 2. Add Item To Auction          *");
-        System.out.println("* 3. Log out                      *");
-        System.out.println("***********************************");
+        System.out.println("*************************************");
+        System.out.println("* 1. Add Item                       *");
+        System.out.println("* 2. Add Item To Auction            *");
+        System.out.println("* 3. List all items in auction room *");
+        System.out.println("* 4. List all active auction rooms  *");
+        System.out.println("* 5. Log out                        *");
+        System.out.println("*************************************");
     }
 
     @Override
@@ -25,7 +27,9 @@ public class LoggedMenu extends Menu {
             switch (option) {
                 case "1":   addItem(); break;
                 case "2":   addItemToAuction(); break;
-                case "3":   logout(); break;
+                case "3":   listAllItemsInAuction(); break;
+                case "4":   listOfAllAuctions(); break;
+                case "5":   logout(); break;
 
                 default:    System.out.println("Unknown option"); break;
             }
@@ -127,6 +131,39 @@ public class LoggedMenu extends Menu {
         auctionItem.insert();
         System.out.println("Item was successfully assigned to auction room.");
         System.out.println();
+    }
+
+    public void listAllItemsInAuction() throws SQLException {
+        for (Category category : CategoryFinder.getInstance().findAll()) {
+            CategoryPrinter.getInstance().print(category);
+        }
+
+        String category = Validation.getInstance().validate("Category id: ", Arrays.asList(
+                new Required(),
+                new IsInteger(),
+                new IsInCategories()
+        ));
+
+        Integer category_id = Integer.parseInt(category);
+
+        AuctionRoom auctionRoom = AuctionRoomFinder.getInstance().findByCategory(category_id);
+        if (auctionRoom == null){
+            System.out.println("Auction room does not exist!");
+            return;
+        }
+        List<AuctionItem> auctionItems = AuctionItemFinder.getInstance().findByAuctionRoomId(auctionRoom.getId());
+
+        for (AuctionItem auctionItem: auctionItems) {
+            Item item = ItemFinder.getInstance().findById(auctionItem.getItem_id());
+            AuctionItemPrinter.getInstance().printForRoom(auctionItem, item);
+        }
+    }
+
+    public void listOfAllAuctions() throws SQLException {
+        for (AuctionRoom auctionRoom: AuctionRoomFinder.getInstance().findRoomsWithItems()) {
+            Category category = CategoryFinder.getInstance().findById(auctionRoom.getCategory_id());
+            AuctionRoomPrinter.getInstance().print(auctionRoom, category);
+        }
     }
 
 }
