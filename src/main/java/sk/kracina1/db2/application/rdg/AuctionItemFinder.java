@@ -20,12 +20,13 @@ public class AuctionItemFinder extends BaseFinder<AuctionItem> {
         return findByInt("SELECT * FROM auction_items WHERE id = ?", id);
     }
 
-    public List<AuctionItem> findByAuctionId(int auctionId) throws SQLException {
-        return findAll("SELECT * FROM auction_items WHERE room_id = ?", auctionId);
-    }
 
     public List<AuctionItem> findFinished() throws SQLException {
         return findAll("SELECT * FROM auction_items WHERE end_date < now()");
+    }
+
+    public List<AuctionItem> findByAuctionRoomId(int auctionRoomId) throws SQLException {
+        return findAll("SELECT * FROM auction_items WHERE room_id = ?", auctionRoomId);
     }
 
     @Override

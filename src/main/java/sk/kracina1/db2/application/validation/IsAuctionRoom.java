@@ -11,7 +11,7 @@ public class IsAuctionRoom implements Rule {
     @Override
     public boolean passes(String value) {
         try {
-            return AuctionRoomFinder.getInstance().findById(Integer.parseInt(value)) != null;
+            return AuctionRoomFinder.getInstance().findRoomById(Integer.parseInt(value)) != null;
         } catch (SQLException e) {
             return false;
         }

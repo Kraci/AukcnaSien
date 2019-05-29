@@ -20,15 +20,15 @@ public class ItemPrinter {
 
 
 
-        System.out.print("id:         ");
+        System.out.print("id:          ");
         System.out.println(item.getId());
-        System.out.print("name:   ");
+        System.out.print("name:        ");
         System.out.println(item.getName());
         System.out.print("count:       ");
         System.out.println(item.getCount());
-        System.out.print("description:   ");
+        System.out.print("description: ");
         System.out.println(item.getDescription());
-        System.out.print("category: ");
+        System.out.print("category:    ");
         System.out.println(CategoryFinder.getInstance().findById(item.getCategory_id()).getName());
         System.out.println();
     }

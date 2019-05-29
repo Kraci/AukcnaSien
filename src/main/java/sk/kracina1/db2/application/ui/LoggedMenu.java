@@ -6,60 +6,41 @@ import sk.kracina1.db2.application.validation.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TimeZone;
 
 public class LoggedMenu extends Menu {
 
     @Override
     public void print() {
-        System.out.println("***********************************");
-        System.out.println("* 1. Add Item                     *");
-        System.out.println("* 2. Add Item To Auction          *");
-        System.out.println("* 3. Add funds                    *");
-        System.out.println("* 4. Edit profile                 *");
-        System.out.println("* 5. Show items in auction room   *");
-        System.out.println("* 6. Bid on item                  *");
-        System.out.println("* 7. Finish auction               *");
-        System.out.println("* 8. Log out                      *");
-        System.out.println("***********************************");
+        System.out.println("*************************************");
+        System.out.println("* 1. Add Item                       *");
+        System.out.println("* 2. Add Item To Auction            *");
+        System.out.println("* 3. Add funds                      *");
+        System.out.println("* 4. Edit profile                   *");
+		System.out.println("* 5. List all items in auction room *");
+        System.out.println("* 6. List all active auction rooms  *");
+        System.out.println("* 7. Bid on item                    *");
+        System.out.println("* 8. Finish auction                 *");
+        System.out.println("* 9. Log out                        *");
+        System.out.println("*************************************");
     }
 
     @Override
     public void handle(String option) {
         try {
             switch (option) {
-            case "1":
-                addItem();
-                break;
-            case "2":
-                addItemToAuction();
-                break;
-            case "3":
-                addFunds();
-                break;
-            case "4":
-                editProfile();
-                break;
-            case "5":
-                showItemsInAuctionRoom();
-                break;
-            case "6":
-                bidOnItem();
-                break;
-            case "7":
-                finishAuctions();
-                break;
-            case "8":
-                logout();
-                break;
+                case "1":   addItem(); break;
+                case "2":   addItemToAuction(); break;
+                case "3":   addFunds(); break;
+                case "4":   editProfile(); break;
+                case "5":   listAllItemsInAuction(); break;
+                case "6":   listOfAllAuctions(); break;
+                case "7":   bidOnItem(); break;
+                case "8":   finishAuctions(); break;
+                case "9":   logout(); break;
 
-            default:
-                System.out.println("Unknown option");
-                break;
+                default:    System.out.println("Unknown option"); break;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -159,34 +140,13 @@ public class LoggedMenu extends Menu {
         System.out.println();
     }
 
-    private void showItemsInAuctionRoom() throws SQLException {
-        System.out.println("Which auction room?");
-        String name = Validation.getInstance().validate("id: ",
-                Arrays.asList(new Required(), new IsInteger(), new IsAuctionRoom()));
-
-        List<AuctionItem> l = AuctionItemFinder.getInstance().findByAuctionId(Integer.parseInt(name));
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss.SSS");
-        for (AuctionItem a : l) {
-
-            Item item = ItemFinder.getInstance().findById(a.getItem_id());
-            String dateFormatted = formatter.format(a.getEnd_date());
-            System.out.println("name: " + item.getName());
-            System.out.println("description: " + item.getDescription());
-            System.out.println(String.format("|%-10s|%-18s|%-18s|%-18s|%-18s", "Id", "starting price", "minimal bid",
-                    "current price", "end date"));
-            System.out.println(String.format("|%-10d|%-18f|%-18f|%-18f|%-18s \n", a.getId(), a.getStarting_price(),
-                    a.getStarting_price(), a.getMin_bid_price(), dateFormatted));
-        }
-
-    }
-
     private void bidOnItem() throws SQLException {
         String name = Validation.getInstance().validate("Auction id: ",
                 Arrays.asList(new Required(), new IsInteger(), new IsAuctionRoom()));
         String itemId = Validation.getInstance().validate("Item id: ",
                 Arrays.asList(new Required(), new IsInteger(), new IsInAuctionItem()));
 
-        List<AuctionItem> l = AuctionItemFinder.getInstance().findByAuctionId(Integer.parseInt(name));
+        List<AuctionItem> l = AuctionItemFinder.getInstance().findByAuctionRoomId(Integer.parseInt(name));
         AuctionItem item = l.get(0);
         String newPrice = Validation.getInstance().validate("Your price: ",
                 Arrays.asList(new Required(), new IsPositiveDouble(), new isPriceHigherThanPrevious(item),
@@ -246,6 +206,39 @@ public class LoggedMenu extends Menu {
             owner.update();
             if (bidder != null)
                 bidder.update();
+        }
+    }
+
+    public void listAllItemsInAuction() throws SQLException {
+        for (Category category : CategoryFinder.getInstance().findAll()) {
+            CategoryPrinter.getInstance().print(category);
+        }
+
+        String category = Validation.getInstance().validate("Category id: ", Arrays.asList(
+                new Required(),
+                new IsInteger(),
+                new IsInCategories()
+        ));
+
+        Integer category_id = Integer.parseInt(category);
+
+        AuctionRoom auctionRoom = AuctionRoomFinder.getInstance().findByCategory(category_id);
+        if (auctionRoom == null){
+            System.out.println("Auction room does not exist!");
+            return;
+        }
+        List<AuctionItem> auctionItems = AuctionItemFinder.getInstance().findByAuctionRoomId(auctionRoom.getId());
+
+        for (AuctionItem auctionItem: auctionItems) {
+            Item item = ItemFinder.getInstance().findById(auctionItem.getItem_id());
+            AuctionItemPrinter.getInstance().printForRoom(auctionItem, item);
+        }
+    }
+
+    public void listOfAllAuctions() throws SQLException {
+        for (AuctionRoom auctionRoom: AuctionRoomFinder.getInstance().findRoomsWithItems()) {
+            Category category = CategoryFinder.getInstance().findById(auctionRoom.getCategory_id());
+            AuctionRoomPrinter.getInstance().print(auctionRoom, category);
         }
     }
 }

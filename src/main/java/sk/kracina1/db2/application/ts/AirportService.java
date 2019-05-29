@@ -31,7 +31,7 @@ package sk.kracina1.db2.application.ts;
 //
 //        try {
 //
-//            Flight flight = FlightFinder.getInstance().findById(flightID);
+//            Flight flight = FlightFinder.getInstance().findRoomById(flightID);
 //
 //            List<FlightTicket> flightTicketsForFlight = FlightTicketFinder.getInstance().findAllTicketsForFlight(flight.getId());
 //            Integer boughtFlightTickets = flightTicketsForFlight.size();
@@ -78,7 +78,7 @@ package sk.kracina1.db2.application.ts;
 //
 //    public void cancelFlightTicket(FlightTicket flightTicket) throws SQLException, AirportException {
 //        int flightId = flightTicket.getFlightId();
-//        Flight flight = FlightFinder.getInstance().findById(flightId);
+//        Flight flight = FlightFinder.getInstance().findRoomById(flightId);
 //
 //        Timestamp now = Timestamp.from(Instant.now());
 //        Timestamp departure = flight.getDeparture();
@@ -127,7 +127,7 @@ package sk.kracina1.db2.application.ts;
 //                throw new AirportException("Airplane doesn't have enough economy class seats");
 //            }
 //
-//            Flight flight = FlightFinder.getInstance().findById(flightId);
+//            Flight flight = FlightFinder.getInstance().findRoomById(flightId);
 //            flight.setAirplaneModelId(airplaneModelId);
 //            flight.update();
 //
@@ -176,10 +176,10 @@ package sk.kracina1.db2.application.ts;
 //
 //    public void doChooseSeatForTicket(int flightTicketId) throws SQLException, IOException {
 //
-//        FlightTicket flightTicket = FlightTicketFinder.getInstance().findById(flightTicketId);
+//        FlightTicket flightTicket = FlightTicketFinder.getInstance().findRoomById(flightTicketId);
 //
 //        int flightID = flightTicket.getFlightId();
-//        Flight flight = FlightFinder.getInstance().findById(flightID);
+//        Flight flight = FlightFinder.getInstance().findRoomById(flightID);
 //        int airplaneModelID = flight.getAirplaneModelId();
 //
 //        List<AirplaneSeat> freeSeats = AirplaneSeatFinder.getInstance().findAllFreeSeatsForFlight(airplaneModelID, flightID);
@@ -196,7 +196,7 @@ package sk.kracina1.db2.application.ts;
 //        try {
 //
 //            // nepotrebne pouzit tranzakciu, ak si dvaja vyberu to iste miesto, vynimka odchyti unique integritne obmedzenie
-////            FlightTicket ft = FlightTicketFinder.getInstance().findById(flightTicketId);
+////            FlightTicket ft = FlightTicketFinder.getInstance().findRoomById(flightTicketId);
 ////            if (ft.getAirplaneSeatId() != 0) {
 ////                throw new AirportException("Seat was taken");
 ////            }
