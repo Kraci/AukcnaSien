@@ -21,7 +21,7 @@ public class LoggedMenu extends Menu {
         System.out.println("* 2. Add Item To Auction          *");
         System.out.println("* 3. Add funds                    *");
         System.out.println("* 4. Edit profile                 *");
-        System.out.println("* 5. Show items                   *");
+        System.out.println("* 5. Show items in auction room   *");
         System.out.println("* 6. Bid on item                  *");
         System.out.println("* 7. Finish auction               *");
         System.out.println("* 8. Log out                      *");
@@ -129,12 +129,12 @@ public class LoggedMenu extends Menu {
         auctionItem.setItem_id(Integer.parseInt(itemId));
 
         String startingPrice = Validation.getInstance().validate("Starting Price: ",
-                Arrays.asList(new Required(), new IsDouble()));
+                Arrays.asList(new Required(), new IsPositiveDouble()));
         auctionItem.setStarting_price(Double.parseDouble(startingPrice));
         auctionItem.setPrice(Double.parseDouble(startingPrice));
 
         String bidPrice = Validation.getInstance().validate("Bid Price: ",
-                Arrays.asList(new Required(), new IsDouble()));
+                Arrays.asList(new Required(), new IsPositiveDouble()));
         auctionItem.setMin_bid_price(Double.parseDouble(bidPrice));
 
         String endDate = Validation.getInstance().validate("End Date: ",
@@ -189,7 +189,7 @@ public class LoggedMenu extends Menu {
         List<AuctionItem> l = AuctionItemFinder.getInstance().findByAuctionId(Integer.parseInt(name));
         AuctionItem item = l.get(0);
         String newPrice = Validation.getInstance().validate("Your price: ",
-                Arrays.asList(new Required(), new IsInteger(), new isPriceHigherThanPrevious(item),
+                Arrays.asList(new Required(), new IsPositiveDouble(), new isPriceHigherThanPrevious(item),
                         new UserHasSufficentMoney(Login.getInstance().getUserID())));
 
         User you = UserFinder.getInstance().findById(Login.getInstance().getUserID());
