@@ -10,7 +10,7 @@ public class UserFinder extends BaseFinder<User> {
 
     public static UserFinder getInstance() { return INSTANCE; }
 
-    private UserFinder() { }
+    protected UserFinder() { }
 
     public User findById(int id) throws SQLException {
         return findByInt("SELECT * FROM users WHERE id = ?", id);

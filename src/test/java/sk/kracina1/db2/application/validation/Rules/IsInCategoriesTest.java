@@ -37,7 +37,7 @@ public class IsInCategoriesTest {
 //
 //            category.insert();
 //
-//            assertNotNull(CategoryFinder.getInstance().findById(category.getId()));
+//            assertNotNull(CategoryFinder.getInstance().findRoomById(category.getId()));
 //
 //        } catch (SQLException e) {
 //        } finally {
