@@ -5,7 +5,7 @@ import java.util.Calendar;
 
 public class IsAfter implements Rule {
 
-    private static final String errorMessage = "Item does not exist.";
+    private static final String errorMessage = "Date must be after this date.";
 
     private int days;
 

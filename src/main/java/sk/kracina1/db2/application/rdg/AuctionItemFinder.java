@@ -2,6 +2,7 @@ package sk.kracina1.db2.application.rdg;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AuctionItemFinder extends BaseFinder<AuctionItem> {
 
@@ -13,6 +14,10 @@ public class AuctionItemFinder extends BaseFinder<AuctionItem> {
 
     public AuctionItem findById(int id) throws SQLException {
         return findByInt("SELECT * FROM auction_items WHERE id = ?", id);
+    }
+
+    public List<AuctionItem> findByAuctionRoomId(int auctionRoomId) throws SQLException {
+        return findAll("SELECT * FROM auction_items WHERE room_id = ?", auctionRoomId);
     }
 
     @Override
