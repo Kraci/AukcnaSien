@@ -20,9 +20,10 @@ public class LoggedMenu extends Menu {
         System.out.println("* 4. Edit profile                   *");
 		System.out.println("* 5. List all items in auction room *");
         System.out.println("* 6. List all active auction rooms  *");
-        System.out.println("* 7. Bid on item                    *");
-        System.out.println("* 8. Finish auction                 *");
-        System.out.println("* 9. Log out                        *");
+        System.out.println("* 7. Show auction item details      *");
+        System.out.println("* 8. Bid on item                    *");
+        System.out.println("* 9. Finish auction                 *");
+        System.out.println("* 10. Log out                       *");
         System.out.println("*************************************");
     }
 
@@ -36,9 +37,10 @@ public class LoggedMenu extends Menu {
                 case "4":   editProfile(); break;
                 case "5":   listAllItemsInAuction(); break;
                 case "6":   listOfAllAuctions(); break;
-                case "7":   bidOnItem(); break;
-                case "8":   finishAuctions(); break;
-                case "9":   logout(); break;
+                case "7":   showAuctionItemDetails(); break;
+                case "8":   bidOnItem(); break;
+                case "9":   finishAuctions(); break;
+                case "10":  logout(); break;
 
                 default:    System.out.println("Unknown option"); break;
             }
@@ -241,4 +243,15 @@ public class LoggedMenu extends Menu {
             AuctionRoomPrinter.getInstance().print(auctionRoom, category);
         }
     }
+
+    private void showAuctionItemDetails() throws SQLException {
+        System.out.println("Auction item ID?");
+        String name = Validation.getInstance().validate("id: ",
+                Arrays.asList(new Required(), new IsInteger(), new IsInAuctionItem()));
+
+        AuctionItem ai = AuctionItemFinder.getInstance().findById(Integer.parseInt(name));
+        Item item = ItemFinder.getInstance().findById(ai.getItem_id());
+        AuctionItemPrinter.getInstance().printAll(ai,item);
+    }
+
 }
