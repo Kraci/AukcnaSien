@@ -143,35 +143,31 @@ public class LoggedMenu extends Menu {
     }
 
     private void bidOnItem() throws SQLException {
-        String name = Validation.getInstance().validate("Auction id: ",
-                Arrays.asList(new Required(), new IsInteger(), new IsAuctionRoom()));
-        String itemId = Validation.getInstance().validate("Item id: ",
+        System.out.println("Auction item ID?");
+        String name = Validation.getInstance().validate("id: ",
                 Arrays.asList(new Required(), new IsInteger(), new IsInAuctionItem()));
 
-        List<AuctionItem> l = AuctionItemFinder.getInstance().findByAuctionRoomId(Integer.parseInt(name));
-        AuctionItem item = l.get(0);
+        AuctionItem item = AuctionItemFinder.getInstance().findById(Integer.parseInt(name));
+
         String newPrice = Validation.getInstance().validate("Your price: ",
                 Arrays.asList(new Required(), new IsPositiveDouble(), new isPriceHigherThanPrevious(item),
                         new UserHasSufficentMoney(Login.getInstance().getUserID())));
 
+        if(item.getHighest_bidder() != -1) {
+            User userPrev = UserFinder.getInstance().findById(item.getHighest_bidder());
+            double prevMoney = userPrev.getMoney();
+            userPrev.setMoney(prevMoney + item.getPrice());
+            userPrev.update();
+        }
+
         User you = UserFinder.getInstance().findById(Login.getInstance().getUserID());
-        User userPrev = UserFinder.getInstance().findById(Login.getInstance().getUserID());
-
-        double prevMoney = userPrev.getMoney();
         double youMoney = you.getMoney();
+        you.setMoney(youMoney - Double.parseDouble(newPrice));
+        you.update();
 
-        // remove this user money
-        // refund previous top bidder money
-        you.setMoney(youMoney - Integer.parseInt(newPrice));
-        userPrev.setMoney(prevMoney + item.getPrice());
-
-        // set item to owner
         item.setPrice(Double.parseDouble(newPrice));
         item.setHighest_bidder(you.getId());
-
         item.update();
-        you.update();
-        userPrev.update();
 
         System.out.println("OK!");
     }
@@ -201,7 +197,8 @@ public class LoggedMenu extends Menu {
             // dat prec auctionItem
             auctionItem.delete();
 
-            // vymazat prazdne aukcne siene? naaah. Toto zmaz potom rasto xd
+            // vymazat prazdne aukcne siene? naaah. Toto zmaz potom rasto xD
+            // TODO(miroslav.mrozek): veru nie
 
             // update vsetkoho v databaze
             item.update();

@@ -102,13 +102,16 @@ public class AuctionItem extends BaseGateway {
     }
 
     public void update() throws SQLException {
-        super.update("UPDATE auction_items SET end_date = ? WHERE id = ?");
+        super.update("UPDATE auction_items SET price = ?, min_bid_price = ?, end_date = ?, bidder_id = ? WHERE id = ?");
     }
 
     @Override
     protected void updateFill(PreparedStatement s) throws SQLException {
-        s.setDate(1, end_date);
-        s.setInt(2, id);
+        s.setDouble(1, price);
+        s.setDouble(2, min_bid_price);
+        s.setDate(3, end_date);
+        s.setInt(4, bidder_id);
+        s.setInt(5, id);
     }
 
     public void delete() throws SQLException {
