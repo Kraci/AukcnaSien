@@ -14,8 +14,10 @@ public class isPriceHigherThanPrevious implements Rule {
 
     @Override
     public boolean passes(String price) {
-        if (ai.getMin_bid_price() == 0) return Double.parseDouble(price) > ai.getPrice() + ai.getMin_bid_price();
-        return Double.parseDouble(price) >= ai.getPrice() + ai.getMin_bid_price();
+        if (ai.getMin_bid_price() == 0) {
+            return Double.parseDouble(price) > (ai.getPrice() + ai.getMin_bid_price());
+        }
+        return Double.parseDouble(price) >= (ai.getPrice() + ai.getMin_bid_price());
     }
 
     @Override
