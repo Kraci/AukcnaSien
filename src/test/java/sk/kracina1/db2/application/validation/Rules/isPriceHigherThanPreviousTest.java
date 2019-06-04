@@ -25,21 +25,27 @@ public class isPriceHigherThanPreviousTest {
 
     @org.junit.jupiter.api.Test
     void less() {
-        assertFalse(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString((price + (min_bid*.5)))));
+        assertFalse(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString((price + (min_bid * .5)))));
     }
 
     @org.junit.jupiter.api.Test
     void more() {
-        assertTrue(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString(price + (min_bid*1.1))));
+        assertTrue(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString(price + (min_bid * 1.1))));
     }
 
     @org.junit.jupiter.api.Test
     void negative() {
-        assertFalse(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString(-(price ))));
+        assertFalse(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString(-(price))));
     }
 
     @org.junit.jupiter.api.Test
     void zero() {
         assertFalse(new isPriceHigherThanPrevious(auctionItem).passes("0"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void zeroBid() {
+        auctionItem.setMin_bid_price(.0);
+        assertFalse(new isPriceHigherThanPrevious(auctionItem).passes(Double.toString(price)));
     }
 }

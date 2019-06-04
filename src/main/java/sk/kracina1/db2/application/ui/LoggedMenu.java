@@ -18,7 +18,7 @@ public class LoggedMenu extends Menu {
         System.out.println("* 2. Add Item To Auction            *");
         System.out.println("* 3. Add funds                      *");
         System.out.println("* 4. Edit profile                   *");
-		System.out.println("* 5. List all items in auction room *");
+        System.out.println("* 5. List all items in auction room *");
         System.out.println("* 6. List all active auction rooms  *");
         System.out.println("* 7. Show auction item details      *");
         System.out.println("* 8. Bid on item                    *");
@@ -31,18 +31,40 @@ public class LoggedMenu extends Menu {
     public void handle(String option) {
         try {
             switch (option) {
-                case "1":   addItem(); break;
-                case "2":   addItemToAuction(); break;
-                case "3":   addFunds(); break;
-                case "4":   editProfile(); break;
-                case "5":   listAllItemsInAuction(); break;
-                case "6":   listOfAllAuctions(); break;
-                case "7":   showAuctionItemDetails(); break;
-                case "8":   bidOnItem(); break;
-                case "9":   finishAuctions(); break;
-                case "10":  logout(); break;
+            case "1":
+                addItem();
+                break;
+            case "2":
+                addItemToAuction();
+                break;
+            case "3":
+                addFunds();
+                break;
+            case "4":
+                editProfile();
+                break;
+            case "5":
+                listAllItemsInAuction();
+                break;
+            case "6":
+                listOfAllAuctions();
+                break;
+            case "7":
+                showAuctionItemDetails();
+                break;
+            case "8":
+                bidOnItem();
+                break;
+            case "9":
+                finishAuctions();
+                break;
+            case "10":
+                logout();
+                break;
 
-                default:    System.out.println("Unknown option"); break;
+            default:
+                System.out.println("Unknown option");
+                break;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -153,7 +175,7 @@ public class LoggedMenu extends Menu {
                 Arrays.asList(new Required(), new IsPositiveDouble(), new isPriceHigherThanPrevious(item),
                         new UserHasSufficentMoney(Login.getInstance().getUserID())));
 
-        if(item.getHighest_bidder() != -1) {
+        if (item.getHighest_bidder() != -1) {
             User userPrev = UserFinder.getInstance().findById(item.getHighest_bidder());
             double prevMoney = userPrev.getMoney();
             userPrev.setMoney(prevMoney + item.getPrice());
@@ -161,6 +183,13 @@ public class LoggedMenu extends Menu {
         }
 
         User you = UserFinder.getInstance().findById(Login.getInstance().getUserID());
+        ItemFinder itemFinder = ItemFinder.getInstance();
+        Item realItem = itemFinder.findById(item.getItem_id());
+        if (realItem.getUser_id() == you.getId()) {
+            System.out.println("Bidding on own items is not allowed.");
+            return;
+        }
+
         double youMoney = you.getMoney();
         you.setMoney(youMoney - Double.parseDouble(newPrice));
         you.update();
@@ -213,29 +242,26 @@ public class LoggedMenu extends Menu {
             CategoryPrinter.getInstance().print(category);
         }
 
-        String category = Validation.getInstance().validate("Category id: ", Arrays.asList(
-                new Required(),
-                new IsInteger(),
-                new IsInCategories()
-        ));
+        String category = Validation.getInstance().validate("Category id: ",
+                Arrays.asList(new Required(), new IsInteger(), new IsInCategories()));
 
         Integer category_id = Integer.parseInt(category);
 
         AuctionRoom auctionRoom = AuctionRoomFinder.getInstance().findByCategory(category_id);
-        if (auctionRoom == null){
+        if (auctionRoom == null) {
             System.out.println("Auction room does not exist!");
             return;
         }
         List<AuctionItem> auctionItems = AuctionItemFinder.getInstance().findByAuctionRoomId(auctionRoom.getId());
 
-        for (AuctionItem auctionItem: auctionItems) {
+        for (AuctionItem auctionItem : auctionItems) {
             Item item = ItemFinder.getInstance().findById(auctionItem.getItem_id());
             AuctionItemPrinter.getInstance().printForRoom(auctionItem, item);
         }
     }
 
     public void listOfAllAuctions() throws SQLException {
-        for (AuctionRoom auctionRoom: AuctionRoomFinder.getInstance().findRoomsWithItems()) {
+        for (AuctionRoom auctionRoom : AuctionRoomFinder.getInstance().findRoomsWithItems()) {
             Category category = CategoryFinder.getInstance().findById(auctionRoom.getCategory_id());
             AuctionRoomPrinter.getInstance().print(auctionRoom, category);
         }
@@ -248,7 +274,7 @@ public class LoggedMenu extends Menu {
 
         AuctionItem ai = AuctionItemFinder.getInstance().findById(Integer.parseInt(name));
         Item item = ItemFinder.getInstance().findById(ai.getItem_id());
-        AuctionItemPrinter.getInstance().printAll(ai,item);
+        AuctionItemPrinter.getInstance().printAll(ai, item);
     }
 
 }
